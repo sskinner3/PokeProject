@@ -1,18 +1,67 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { View, FlatList } from "react-native";
+
+import { getList } from "../Actions/DexAction";
+
+import Header from "../Components/Header";
+import DexListItem from "../Components/DexListItem";
+
+import styles from "./styles/HomeScreenStyles";
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.getList();
+  }
+
+  handleItemPress = (evt, index) => {
+    console.log(index);
+    this.props.navigation.navigate("PokeScreen", {
+      index: index,
+    });
+  };
+
+  renderPokeItem = ({ item, index }) => {
+    return (
+      <DexListItem
+        onPress={this.handleItemPress}
+        item={item}
+        index={index + 1}
+      />
+    );
+  };
+
+  keyExtractor = (item, index) => `${index}`;
+
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Home Screen</Text>
-        <TouchableOpacity onPress={this.props.getList}>
-          <Text>GET!</Text>
-        </TouchableOpacity>
-        {this.props.list.length > 0 && <Text>{this.props.list[0]}</Text>}
+      <View style={styles.container}>
+        <Header text="Dex" />
+        <FlatList
+          data={this.props.data}
+          renderItem={this.renderPokeItem}
+          keyExtractor={this.keyExtractor}
+        />
       </View>
     );
   }
 }
 
-export default HomeScreen;
+const mapStateToProps = state => ({
+  fetching: state.dexReducer.fetching,
+  data: state.dexReducer.data,
+  error: state.dexReducer.error,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getList: () => dispatch(getList()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);

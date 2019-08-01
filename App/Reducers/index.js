@@ -1,15 +1,16 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
+import dexReducer from "./DexReducer";
 import pokeReducer from "./PokeReducer";
 
 const AppReducers = combineReducers({
-  pokeReducer
+  dexReducer,
+  pokeReducer,
 });
 
 const rootReducer = (state, action) => {
   return AppReducers(state, action);
 };
 
-let store = createStore(rootReducer);
-
-export default store;
+export default createStore(rootReducer, applyMiddleware(thunk));

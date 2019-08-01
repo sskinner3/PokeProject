@@ -1,20 +1,20 @@
 import * as Actions from "../Actions/ActionTypes";
 
-const PokeReducer = (
-  state = { fetching: false, error: null, poke: null },
+const DexReducer = (
+  state = { fetching: false, error: null, data: null },
   action
 ) => {
   switch (action.type) {
-    case Actions.GET_POKE_REQUEST:
+    case Actions.GET_LIST_REQUEST:
       return Object.assign({}, state, {
         fetching: true,
       });
-    case Actions.GET_POKE_SUCCESS:
+    case Actions.GET_LIST_SUCCESS:
       return Object.assign({}, state, {
         fetching: false,
-        poke: action.data,
+        data: action.data,
       });
-    case Actions.GET_POKE_FAILURE:
+    case Actions.GET_LIST_FAILURE:
       return Object.assign({}, state, {
         fetching: false,
         error: action.error,
@@ -24,4 +24,4 @@ const PokeReducer = (
   }
 };
 
-export default PokeReducer;
+export default DexReducer;

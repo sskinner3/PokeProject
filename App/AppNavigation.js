@@ -3,17 +3,20 @@
 import React from "react";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-//import HomeScreen from "./Screens/HomeScreen";
-import PokeAction from "./Actions/PokeAction";
+import HomeScreen from "./Screens/HomeScreen";
+import PokeScreen from "./Screens/PokeScreen";
 
 const AppNavigator = createStackNavigator(
   {
-    Home: {
-      screen: PokeAction
-    }
+    HomeScreen: {
+      screen: HomeScreen,
+    },
+    PokeScreen: {
+      screen: PokeScreen,
+    },
   },
   {
-    headerMode: "none"
+    headerMode: "none",
   }
 );
 
